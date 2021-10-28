@@ -1,23 +1,70 @@
-import {Format} from './../util/Format';
-import {CameraController} from './CameraController';
-import {DocumentPreviewController} from './DocumentPreviewController';
+import { Format } from './../util/Format';
+import { CameraController } from './CameraController';
+import { MicrophoneController } from './MicrophoneController';
+import { DocumentPreviewController } from './DocumentPreviewController';
+import { Firebase } from './../util/Firebase';
+import { User } from './../model/User';
 
 export class WhatsAppController {
 
     constructor(){
 
+        this._firebase = new Firebase();
+        this.initAuth();
         this.elementsPrototype();
         this.loadElements();
         this.initEvents();
+    }
+
+    initAuth(){
+
+        this._firebase.initAuth().then(response => {
+
+            this._user = new User(response.user.email);
+
+            this._user.on('datachange', data => {
+
+                document.querySelector('title').innerHTML = data.name + ' - WhatsApp Clone';
+
+                this.el.inputNamePanelEditProfile.innerHTML = data.name;
+
+                if(data.photo) {
+
+                    let photo = this.el.imgPanelEditProfile;
+                    photo.src = data.photo;
+                    photo.show();
+                    this.el.imgDefaultPanelEditProfile.hide();
+
+                    let photo2 = this.el.myPhoto.querySelector('img');
+                    photo2.src = data.photo;
+                    photo2.show();
+                }
+            });
+
+        this._user.name = response.user.displayName;
+        this._user.email = response.user.email;
+        this._user.photo = response.user.photoURL;
+
+        this._user.save().then(()=> {
+
+            this.el.appContent.css({
+                display:'flex'
+            });
+        });
+
+        }).catch(err=>{
+
+            console.error(err);
+        });
     }
 
     loadElements(){
 
         this.el = {};
 
-        document.querySelectorAll('[id]').forEach(element => {
+        [...document.querySelectorAll('[id]')].forEach(element => {
 
-            this.el [Format.getCamelCase(element.id)] = element;
+            this.el[Format.getCamelCase(element.id)] = element;
         });
     }
 
@@ -72,7 +119,15 @@ export class WhatsAppController {
 
         this.el.btnSavePanelEditProfile.on('click', e => {
 
-            console.log(this.el.inputNamePanelEditProfile.innerHTML);
+            this.el.inputNamePanelEditProfile.disabled = true;
+
+            this._user.name = this.el.inputNamePanelEditProfile.innerHTML;
+
+            this._user.save().then(()=>{
+
+                this.el.inputNamePanelEditProfile.disabled = false;
+            });
+
         });
 
         this.el.formPanelAddContact.on('click', e => {
@@ -180,21 +235,33 @@ export class WhatsAppController {
         });
 
         this.el.inputDocument.on('change', e => {
-            console.log('ok');
-            if (this.el.inputDocument.files.lenght) {
+
+            if (!this.el.inputDocument.files.lenght) {
+
+                this.el.panelDocumentPreview.css({
+                    height:'1%'
+                });
 
                 let file = this.el.inputDocument.files[0];
 
                 this._documentPreviewController = new DocumentPreviewController(file);
 
                 this._documentPreviewController.getPreviewData().then(result => {
-                    console.log('data');
+                    
                     this.el.imgPanelDocumentPreview.src = result.src;
                     this.el.infoPanelDocumentPreview.innerHTML = result.info;
                     this.el.imagePanelDocumentPreview.show();
                     this.el.filePanelDocumentPreview.hide();
 
+                    this.el.panelDocumentPreview.css({
+                        height:'calc(100% - 120px)'
+                    });
+
                 }).catch(err => {
+
+                    this.el.panelDocumentPreview.css({
+                        height:'calc(100% - 120px)'
+                    });
 
                     switch (file.type) {
 
@@ -215,7 +282,6 @@ export class WhatsAppController {
 
                         default:
                             this.el.iconPanelDocumentPreview.className = 'jcxhw icon-doc-generic';
-
                         break;
 
                     }
@@ -243,16 +309,29 @@ export class WhatsAppController {
 
             this.el.recordMicrophone.show();
             this.el.btnSendMicrophone.hide();
-            this.startRecordMicrophoneTime();
+
+            this._microphoneController = new MicrophoneController();
+
+            this._microphoneController.on('ready', audio => {
+
+                this._microphoneController.startRecording();
+            });
+
+            this._microphoneController.on('recordTimer', timer => {
+
+                this.el.recordMicrophoneTimer.innerHTML = Format.toTime(timer);
+            });
         });
 
         this.el.btnCancelMicrophone.on('click', e => {
 
+            this._microphoneController.stopRecording();
             this.closeRecordMicrophone();
         });
 
         this.el.btnFinishMicrophone.on('click', e => {
 
+            this._microphoneController.stopRecording();
             this.closeRecordMicrophone();
         });
 
@@ -337,22 +416,11 @@ export class WhatsAppController {
         });
     }
 
-    startRecordMicrophoneTime(){
-
-        let start = Date.now();
-
-        this._recordMicrophoneInterval = setInterval(() => {
-
-            this.el.recordMicrophoneTimer.innerHTML = Format.toTime(Date.now() - start);
-        }, 100);
-    }
-
     closeRecordMicrophone() {
 
         this.el.recordMicrophone.hide();
         this.el.btnSendMicrophone.show();
-        clearInterval(this._recordMicrophoneInterval);
-        this.el.recordMicrophoneTimer.innerHTML = '0:00';
+        // this.el.recordMicrophoneTimer.innerHTML = '0:00';
     }
 
     closeAllMainPanel() {
