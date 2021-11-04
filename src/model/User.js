@@ -12,13 +12,16 @@ export class User extends Model {
     }
 
     get name(){ return this._data.name; }
-    set name(value) { this._data.name = value }
+    set name(value) { this._data.name = value; }
 
     get email(){ return this._data.email; }
-    set email(value) { this._data.email = value }
+    set email(value) { this._data.email = value; }
 
     get photo(){ return this._data.photo; }
-    set photo(value) { this._data.photo = value }
+    set photo(value) { this._data.photo = value; }
+
+    get chatId(){ return this._data.chatId; }
+    set chatId(value) { this._data.chatId = value; }
 
     getById(id){
 
@@ -56,7 +59,7 @@ export class User extends Model {
 
     addContact(contact) {
 
-        return User.getContactsRef(this.email).doc(atob(contact.email)).set(contact.toJSON());
+        return User.getContactsRef(this.email).doc(btoa(contact.email)).set(contact.toJSON());
     }
 
     getContacts(){

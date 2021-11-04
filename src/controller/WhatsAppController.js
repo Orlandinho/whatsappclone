@@ -4,6 +4,8 @@ import { MicrophoneController } from './MicrophoneController';
 import { DocumentPreviewController } from './DocumentPreviewController';
 import { Firebase } from './../util/Firebase';
 import { User } from './../model/User';
+import { Message } from './../model/Message';
+import { Chat } from '../model/Chat';
 
 export class WhatsAppController {
 
@@ -131,6 +133,24 @@ export class WhatsAppController {
                     img.show();
                 }
 
+                div.on('click', e => {
+
+                    this.el.activeName.innerHTML = contact.name;
+                    this.el.activeStatus.innerHTML = contact.status;
+
+                    if(contact.photo) {
+
+                        let img = this.el.activePhoto;
+                        img.src = contact.photo;
+                        img.show();
+                    }
+
+                    this.el.home.hide();
+                    this.el.main.css({
+                        display: 'flex'
+                    });
+                });
+
                 this.el.contactsMessagesList.appendChild(div);
             });
         });
@@ -210,7 +230,7 @@ export class WhatsAppController {
 
         });
 
-        this.el.formPanelAddContact.on('click', e => {
+        this.el.formPanelAddContact.on('submit', e => {
 
             e.preventDefault();
 
@@ -222,11 +242,21 @@ export class WhatsAppController {
 
                 if(data.name){
 
-                    this._user.addContact(contact).then(() => {
+                    Chat.createIfNotExists(this._user.email, contact.email).then(chat => {
 
-                        this.el.btnClosePanelAddContact.click();
-                        console.info('Contato adicionado');
-                    });
+                        contact.chatId = chat.id;
+                        this._user.chatId = chat.id;
+
+                        contact.addContact(this._user);
+
+                        this._user.addContact(contact).then(() => {
+
+                            this.el.btnClosePanelAddContact.click();
+                            console.info('Contato adicionado');
+                        });
+                    })
+
+                    
 
                 } else {
 
