@@ -179,19 +179,34 @@ export class WhatsAppController {
             docs.forEach(doc => {
 
                 let data = doc.data();
-                data.id = doc.id; 
+                data.id = doc.id;
+
+                let message = new Message();
+
+                message.fromJSON(data);
+
+                let me = (data.from === this._user.email);
 
                 if(!this.el.panelMessagesContainer.querySelector('#_' + data.id)){
 
-                    let message = new Message();
+                    if (!me) {
 
-                    message.fromJSON(data);
-
-                    let me = (data.from === this._user.email);
+                        doc.ref.set({
+                            status:'read'
+                        }, {
+                            merge:true
+                        });
+                    }
 
                     let view = message.getViewElement(me);
 
                     this.el.panelMessagesContainer.appendChild(view);
+
+                } else if (me) {
+
+                    let msgEl = this.el.panelMessagesContainer.querySelector('#_' + data.id);
+
+                    msgEl.querySelectorAll('.message-status').innerHTML = message.getStatusViewElement().outerHTML;
                 }
             });
 
@@ -315,9 +330,7 @@ export class WhatsAppController {
                             this.el.btnClosePanelAddContact.click();
                             console.info('Contato adicionado');
                         });
-                    })
-
-                    
+                    });
 
                 } else {
 
