@@ -1,0 +1,89 @@
+[debug] [2021-11-13T23:45:30.684Z] ----------------------------------------------------------------------
+[debug] [2021-11-13T23:45:30.686Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\anton\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase init functions
+[debug] [2021-11-13T23:45:30.686Z] CLI Version:   3.18.4
+[debug] [2021-11-13T23:45:30.686Z] Platform:      win32
+[debug] [2021-11-13T23:45:30.686Z] Node Version:  v12.18.3
+[debug] [2021-11-13T23:45:30.687Z] Time:          Sat Nov 13 2021 20:45:30 GMT-0300 (GMT-03:00)
+[debug] [2021-11-13T23:45:30.687Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-13T23:45:30.694Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[debug] [2021-11-13T23:45:30.694Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Projetos\Cursos\whatsapp clone
+
+Before we get started, keep in mind:
+
+  * You are currently outside your home directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2021-11-13T23:46:10.869Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-11-13T23:46:10.870Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ {
+  refresh_token: '1//0hKHOmZ2aLGEUCgYIARAAGBESNwF-L9IrU5RPUTxFFKjYqkcAc9xBKkGHIVCa5Zc1A82C5KrBtSXZAMDu7CResbgG4-LiKJJtmC8',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid'
+} 
+ Sat Nov 13 2021 20:46:10 GMT-0300 (GMT-03:00)
+[debug] [2021-11-13T23:46:11.051Z] <<< HTTP RESPONSE 200
+[debug] [2021-11-13T23:46:11.101Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects  
+  
+ Sat Nov 13 2021 20:46:11 GMT-0300 (GMT-03:00)
+[debug] [2021-11-13T23:46:32.432Z] Error: connect ETIMEDOUT 104.197.85.31:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 104.197.85.31:443
+[debug] [2021-11-13T23:47:37.673Z] ----------------------------------------------------------------------
+[debug] [2021-11-13T23:47:37.676Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\anton\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase init functions
+[debug] [2021-11-13T23:47:37.676Z] CLI Version:   3.18.4
+[debug] [2021-11-13T23:47:37.676Z] Platform:      win32
+[debug] [2021-11-13T23:47:37.676Z] Node Version:  v12.18.3
+[debug] [2021-11-13T23:47:37.677Z] Time:          Sat Nov 13 2021 20:47:37 GMT-0300 (GMT-03:00)
+[debug] [2021-11-13T23:47:37.677Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-13T23:47:37.685Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[debug] [2021-11-13T23:47:37.686Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Projetos\Cursos\whatsapp clone
+
+Before we get started, keep in mind:
+
+  * You are currently outside your home directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2021-11-13T23:47:39.698Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects  
+  
+ Sat Nov 13 2021 20:47:39 GMT-0300 (GMT-03:00)
+[debug] [2021-11-13T23:48:00.889Z] Error: connect ETIMEDOUT 104.197.85.31:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 104.197.85.31:443
